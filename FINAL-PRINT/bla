@@ -1,0 +1,15 @@
+[?17;0;0c
+Traceback (most recent call last):
+  File "camera_final.py", line 34, in <module>
+    filtered_images = fetchAndProcessImages(camera)
+  File "/home/pi/MDay2015/FINAL/mainsupport.py", line 150, in fetchAndProcessImages
+    camera.capture("temp/camera_none.jpg", use_video_port=True)
+  File "/usr/lib/python2.7/dist-packages/picamera/camera.py", line 1570, in capture
+    encoder.start(output)
+  File "/usr/lib/python2.7/dist-packages/picamera/encoders.py", line 1543, in start
+    super(PiCookedOneImageEncoder, self).start(output)
+  File "/usr/lib/python2.7/dist-packages/picamera/encoders.py", line 819, in start
+    self._open_output(output)
+  File "/usr/lib/python2.7/dist-packages/picamera/encoders.py", line 774, in _open_output
+    output = io.open(output, 'wb', buffering=65536)
+IOError: [Errno 2] No such file or directory: 'temp/camera_none.jpg'

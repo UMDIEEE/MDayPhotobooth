@@ -1,0 +1,3 @@
+#!/bin/bash
+convert -size 1920x1080 xc:black -fill red -draw "rectangle 0,0,237,20" -draw "rectangle 1682,0,1920,20" bg_test.png
+#convert -size 1920x1080 xc:black -fill red -draw "rectangle 1681,0,239,20" bg_test_2.png
