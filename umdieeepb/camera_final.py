@@ -59,7 +59,7 @@ if __name__ == "__main__":
 			
 			if response == 1:
 				# Print!
-				conn.printFile(printer_name, os.path.abspath(selected_frame_pic), "Photo_Booth_Print", { "media": "Custom.4x6in" })
+				#conn.printFile(printer_name, os.path.abspath(selected_frame_pic), "Photo_Booth_Print", { "media": "Custom.4x6in" })
 				subprocess.Popen(["/home/pi/MDay2015/bgimage", "Printing.png"])
 				sleep(30)
 				exitNow = True
