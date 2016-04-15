@@ -1,4 +1,0 @@
-#!/bin/bash
-fbv -ciuker "$1" << EOF
-q
-EOF
