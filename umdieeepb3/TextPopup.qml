@@ -82,13 +82,28 @@ Rectangle {
     
     Timer {
         id: propTransTimer
-        interval: 10; running: false; repeat: true
+        interval: 10; running: false; repeat: false
         onTriggered: {
             console.log("propTransTimer: executing")
             console.log("propTransTimer old y = "+y)
             console.log("propTransTimer | targetY = "+targetY)
             y = (targetY == 0) ? (-height) : targetY
             console.log("propTransTimer assigns y = "+y)
+            console.log("propTransTimer assigns opacity = "+opacity)
+            console.log("propTransTimer assigns stateVisible = "+stateVisible)
+        }
+    }
+    
+    Timer {
+        id: propReadTimer
+        interval: 1000; running: true; repeat: true
+        onTriggered: {
+            console.log("propReadTimer | targetY = "+targetY)
+            console.log("propReadTimer assigns x = "+x)
+            console.log("propReadTimer assigns y = "+y)
+            console.log("propReadTimer assigns opacity = "+opacity)
+            console.log("propReadTimer assigns stateVisible = "+stateVisible)
+            console.log("propReadTimer assigns parent = "+parent.parent)
         }
     }
     

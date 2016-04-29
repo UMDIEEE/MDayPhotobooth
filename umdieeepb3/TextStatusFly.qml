@@ -6,31 +6,30 @@ Item {
     property bool stateVisible: true
     property int targetX: 0
     property int targetY: 0
+    property bool parentSet: false
     
     function status(statusText) {
         console.log("LL Got from python: status = "+statusText)
-        //TextStatusFlyMaker.createTextPopupComponent(statusText);
+        TextStatusFlyMaker.createTextPopupComponent(statusText);
     }
     
     id: textStatusItems
     
-    width: parent.width
-    height: parent.height
+    //width: parent.width
+    //height: parent.height
     
     focus: true
     
-    //Component.onCompleted: {
+    Component.onCompleted: {
         //textStatusItems.status.connect(TextStatusFlyMaker.createTextPopupComponent)
-    //}
+        
+    }
     
     Keys.onPressed: {
         console.log("Width: " + width);
         console.log("Height: " + height);
         console.log("X: " + x);
         console.log("Y: " + y);
-        /*console.log("textBlock.x: " + textBlock.x);
-        console.log("textBlock.y: " + textBlock.y);
-        console.log("textBlock.opacity: " + textBlock.opacity);*/
         
         //stateVisible = !stateVisible
         //textBlock.y = (textBlock.y == parent.parent.height) ? (200) : parent.parent.height
@@ -61,13 +60,28 @@ Item {
         }
     }
     
-    Timer {
+    /*Timer {
         id: sillyTimer
         interval: 3000
         running: true
         repeat: true
         onTriggered: {
             TextStatusFlyMaker.createTextPopupComponent("Hello, world!")
+        }
+    }*/
+    
+    Timer {
+        id: parentSettingTimer
+        interval: 100
+        running: true
+        repeat: true
+        onTriggered: {
+            if (parentSet) {
+                width = parent.width
+                height = parent.height
+                parentSettingTimer.running = false
+            }
+            console.log("parentSet: " + parentSet)
         }
     }
     

@@ -29,8 +29,8 @@ function finishTextPopupComponent(text) {
         }
         
         textPopupObjs.push(curTextPopupObj);
-        console.log("curTextPopupObj.targetY: " + curTextPopupObj.targetY);
-        console.log("curTextPopupObj.y: " + curTextPopupObj.y);
+        console.log("[finishTextPopupComponent] curTextPopupObj.targetY: " + curTextPopupObj.targetY);
+        console.log("[finishTextPopupComponent] curTextPopupObj.y: " + curTextPopupObj.y);
         moveUpAllTextPopups();
         
     } else if (component.status == Component.Error) {
@@ -41,7 +41,10 @@ function finishTextPopupComponent(text) {
 
 function moveUpAllTextPopups() {
     for (var index = 0; index < textPopupObjs.length - 1; ++index) {
-        if (textPopupObjs[index] != null)
+        if (textPopupObjs[index] != null) {
             textPopupObjs[index].moveUpLine();
+        } else {
+            textPopupObjs.splice(index, 1);
+        }
     }
 }

@@ -23,22 +23,32 @@ if __name__ == '__main__':
     engine = QQmlEngine()
     
     # Initialize PhotoBoothEngine.
-    #pbengine = PhotoBoothEngine()
-    #pbengine.on_status.connect(appLabel.rootObject().status)
-    #
-    #appLabel.rootContext().setContextProperty('pbengine', pbengine)
+    pbengine = PhotoBoothEngine()
+    pbengine.on_status.connect(appLabel.rootObject().status)
+    
+    appLabel.rootContext().setContextProperty('pbengine', pbengine)
 
     # Create a component factory and load the QML script.
-    #component = QQmlComponent(engine)
-    #component.loadUrl(QUrl('TextStatusFly.qml'))
+    print("Hello")
+    component = QQmlComponent(appLabel.engine())
+    component.loadUrl(QUrl('TextStatusFly.qml'))
     
-    #asdf = component.create()
-    #
-    #asdf.setParentItem(appLabel.rootObject())
-    #asdf.setParent(appLabel.rootObject())
-    #
+    print("Hello2")
+    asdf = component.create(appLabel.rootContext())
+    
+    print("Hello3")
+    asdf.setParentItem(appLabel.rootObject())
+    asdf.setParent(appLabel.rootObject())
+    
+    print("Hello4")
     #asdf.setProperty("targetX", 100)
-    #asdf.setProperty("id", "textStatusBar")
+    asdf.setProperty("objectName", "textStatusBar")
+    
+    print("Hello5")
+    appLabel.rootContext().setContextProperty('textStatusBar', asdf)
+    
+    asdf.setProperty("parentSet", True)
+    
     #asdf.setProperty("y", 100)
     
     #print(appLabel)
