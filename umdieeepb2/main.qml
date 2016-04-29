@@ -59,7 +59,7 @@ Rectangle {
         y: 630
         width: 420
         height: 270
-        fillMode: Image.PreserveAspectFit
+        //fillMode: Image.PreserveAspectFit
         source: "test.jpg"
     }
 

@@ -1,4 +1,5 @@
 import QtQuick 2.5
+import "TextStatusFlyMaker.js" as TextStatusFlyMaker
 
 Item {
     property string defaultText: "Hello, world!"
@@ -18,25 +19,27 @@ Item {
         console.log("Height: " + height);
         console.log("X: " + x);
         console.log("Y: " + y);
-        console.log("textBlock.x: " + textBlock.x);
+        /*console.log("textBlock.x: " + textBlock.x);
         console.log("textBlock.y: " + textBlock.y);
-        console.log("textBlock.opacity: " + textBlock.opacity);
+        console.log("textBlock.opacity: " + textBlock.opacity);*/
         
         //stateVisible = !stateVisible
         //textBlock.y = (textBlock.y == parent.parent.height) ? (200) : parent.parent.height
-        textBlock.moveUpLine()
+        //textBlock.moveUpLine()
         //textBlock.opacity = (textBlock.opacity == 0.0) ? 1.0 : 0.0
     }
     
-    TextPopup {
+    /*TextPopup {
         id: textBlock
         text: defaultText
         stateVisible: parent.stateVisible
         targetY: parent.height - textBlock.height
+        startY: parent.height //- textBlock.height
         autoFade: true
         destroyOnFade: true
         enableTransitions: true
-    }
+        useTarget: true
+    }*/
     
     MouseArea {
         anchors.fill: parent
@@ -46,6 +49,16 @@ Item {
             console.log(height);
             
             parent.stateVisible = !parent.stateVisible
+        }
+    }
+    
+    Timer {
+        id: sillyTimer
+        interval: 750
+        running: true
+        repeat: true
+        onTriggered: {
+            TextStatusFlyMaker.createTextPopupComponent("Hello, world!")
         }
     }
     

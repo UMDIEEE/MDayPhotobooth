@@ -6,8 +6,12 @@ Rectangle {
     property bool autoFade: false
     property bool destroyOnFade: false
     property bool enableTransitions: false
+    property bool useTarget: false // This needs to be set to enable everything
+    property bool actuallyStart: false
     property int targetX: 0
     property int targetY: 0
+    property int startX: 0
+    property int startY: 0
     
     signal moveUpLine()
     signal startFadeTimer()
@@ -20,18 +24,13 @@ Rectangle {
         textPopupRect.moveUpLine.connect(doMoveUpLine)
         
         console.log("Startup")
-        //y = (targetY == 0) ? (-height) : targetY
-        
-        console.log("y set to: " + y)
-        
-        yBehavior.enabled = enableTransitions
-        opacityBehavior.enabled = enableTransitions
-        
-        console.log("Enabled: " + yBehavior.enabled + " and " + opacityBehavior.enabled)
+        propTimer.running = true
+        console.log("Startup end")
     }
     
     function doMoveUpLine() {
-        y = y - height
+        targetY = targetY - height
+        y = targetY
     }
     
     id: textPopupRect
@@ -57,8 +56,41 @@ Rectangle {
     }*/
     
     Timer {
+        id: propTimer
+        interval: 100; running: false; repeat: true
+        onTriggered: {
+            console.log("propTimer trigger")
+            if (useTarget) {
+                y = (startY == 0) ? (-height) : startY
+                
+                console.log("targetY set to: " + targetY)
+                console.log("y set to: " + y)
+                
+                yBehavior.enabled = enableTransitions
+                opacityBehavior.enabled = enableTransitions
+                
+                console.log("Enabled: " + yBehavior.enabled + " and " + opacityBehavior.enabled)
+                
+                actuallyStart = true
+                
+                fadeTimer.running = autoFade
+                propTransTimer.running = true
+                propTimer.running = false
+            }
+        }
+    }
+    
+    Timer {
+        id: propTransTimer
+        interval: 10; running: false; repeat: false
+        onTriggered: {
+            y = (targetY == 0) ? (-height) : targetY
+        }
+    }
+    
+    Timer {
         id: fadeTimer
-        interval: 5000; running: autoFade; repeat: false
+        interval: 5000; running: false; repeat: false
         onTriggered: {
             opacity = 0.0
             destroyTimer.running = destroyOnFade
@@ -69,8 +101,8 @@ Rectangle {
         id: destroyTimer
         interval: 1000; running: false; repeat: false
         onTriggered: {
-            console.log("Destroying...")
-            textPopupRect.destroy()
+            //console.log("Destroying...")
+            //textPopupRect.destroy()
         }
     }
     
@@ -108,16 +140,16 @@ Rectangle {
     
     states: [
         State { when: stateVisible;
-            PropertyChanges {   target: textPopupRect; opacity: 1.0;    }
+            PropertyChanges {   target: textPopupRect; opacity: actuallyStart ? 1.0 : 0.0;    }
         },
         State { when: !stateVisible;
             PropertyChanges {   target: textPopupRect; opacity: 0.0;    }
         }
     ]
-    transitions: Transition {
+    /*transitions: Transition {
         reversible: true
         NumberAnimation { property: "opacity"; duration: 500; easing.type: Easing.InOutQuad }
-    }
+    }*/
     
     Behavior on y {
         id: yBehavior
