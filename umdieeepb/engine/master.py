@@ -3,6 +3,8 @@ import sys
 import threading
 import urllib.request
 
+import picamera
+import socket
 import time
 from umdieeepb.engine.camera import PhotoBoothCameraEngine
 from umdieeepb.engine.loading import PhotoBoothLoadingEngine
@@ -76,21 +78,89 @@ class PhotoBoothEngine(QtCore.QObject):
     def _print(self, text):
         print("[PhotoBoothEngine] %s" % text)
     
+    def camera_effect(self, camera, effect):
+        n = effect.lower()
+        
+        if n == 'negative':
+            camera.image_effect = 'negative'
+        elif n == 'sketch':
+            camera.image_effect = 'sketch'
+        elif n == 'colorswap':
+            camera.image_effect = 'colorswap'
+        elif n == 'cartoon':
+            camera.image_effect = 'cartoon'
+        elif n == 'oilpaint':
+            camera.image_effect = 'oilpaint'
+        elif n == 'emboss':
+            camera.image_effect = 'emboss'
+        elif n == 'watercolor':
+            camera.image_effect = 'watercolor'
+        else:
+            camera.image_effect = 'none'
+            
+    
     def main(self):
+        self.fxlist = [
+                      'negative',
+                      'sketch',
+                      'colorswap',
+                      'cartoon',
+                      'oilpaint',
+                      'emboss',
+                      'watercolor',
+                      'none'
+                    ]
+        
         self._print("Main started.")
         
-        while not self.stopnow:
-            self._print("Loop")
+        self.socket = socket.socket()
+        self.socket.bind(("0.0.0.0", 12345))
+        
+        self.socket.listen(1)
+        
+        with picamera.PiCamera() as camera:
+            camera.resolution = 640, 480
+            camera.saturation = 50
+            camera.brightness = 50
+            camera.stop_preview()
             
-            #if self.pbstate == 0:
-                #self.on_status.emit("Testing")
-                #self.on_update_filter_preview.emit(1, "test-highlight.jpg")
-                #self.on_change_url.emit('main.qml')
+            while not self.stopnow:
+                self._print("Loop")
                 
-            time.sleep(3)
-            
-            #if self.pbstate == 0:
-            #    self.change_screen(1)
+                if self.pbstate == 1:
+                    camera.start_preview()
+                
+                conn, addr = self.socket.accept()
+                print("Connection from: " + str(addr))
+                
+                while True:
+                    data = conn.recv(1024).decode()
+                    if not data:
+                        break
+                    
+                    cmd = data.split(",")
+                    
+                    if self.pbstate == 1:
+                        if cmd[0] == "filter":
+                            self.camera_effect(camera, cmd[1])
+                            self.on_set_border_image.emit(self.fxlist.index(cmd[1]))
+                        elif cmd[0] == "takepic":
+                            camera.stop_preview()
+                            camera.resolution = 1944, 2592
+                            camera.capture("nice_image.jpg")
+                            self.change_screen(2)
+                    
+                    conn.send(data.encode())
+                
+                #if self.pbstate == 0:
+                    #self.on_status.emit("Testing")
+                    #self.on_update_filter_preview.emit(1, "test-highlight.jpg")
+                    #self.on_change_url.emit('main.qml')
+                    
+                time.sleep(3)
+                
+                #if self.pbstate == 0:
+                #    self.change_screen(1)
             
     @QtCore.pyqtSlot(int)
     def change_screen(self, state):

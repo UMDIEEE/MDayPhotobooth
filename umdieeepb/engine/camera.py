@@ -20,7 +20,7 @@ class PhotoBoothCameraEngine(QtCore.QObject, StoppableThread):
             self.on_status.emit("Testing")
             #self.on_update_filter_preview.emit(1, "test-highlight.jpg")
             
-            self.on_set_border_image.emit(self.counter)
+            #self.on_set_border_image.emit(self.counter)
             
             if self.counter < 8:
                 self.counter += 1
