@@ -42,7 +42,7 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
         for f in os.listdir('assets/frames'):
             frame_path = os.path.join('assets/frames', f)
             if os.path.isfile(frame_path):
-                new_path = "tmp/" + file_rename(f, "_" + str(self.counter))
+                new_path = "tmp/" + "frame_" + str(self.counter) + ".jpg"
                 self.counter += 1
                 print("%s -> %s" % (frame_path, new_path))
                 self.file_status[self.mphelper.add_job(["frame_pic", "nice_image.jpg", frame_path, new_path])] = frame_path
@@ -52,8 +52,8 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
         for f in os.listdir('assets/frames'):
             frame_path = os.path.join('assets/frames', f)
             if os.path.isfile(frame_path):
-                new_path = "tmp/" + file_rename(f, "_" + str(self.counter))
-                new_path_mini = "tmp/" + file_rename(f, "_mini_" + str(self.counter))
+                new_path = "tmp/" + "frame_" + str(self.counter) + ".jpg"
+                new_path_mini = "tmp/" + "frame_mini_" + str(self.counter) + ".jpg"
                 self.counter += 1
                 print("%s -> %s" % (new_path, new_path_mini))
                 self.file_status[self.mphelper.add_job(["shrink43Image", new_path, new_path_mini])] = new_path_mini
@@ -63,7 +63,7 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
         
         self.on_status.emit("Done!")
         time.sleep(1)
-        self.on_change_screen.emit(1)
+        self.on_change_screen.emit(4)
         #self.counter -= 1
         #self.on_change_url.emit('main.qml')
         #time.sleep(1)

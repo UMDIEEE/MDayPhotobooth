@@ -9,6 +9,8 @@ import time
 from umdieeepb.engine.camera import PhotoBoothCameraEngine
 from umdieeepb.engine.loading import PhotoBoothLoadingEngine
 from umdieeepb.engine.preview import PhotoBoothPreviewEngine
+from umdieeepb.engine.processing import PhotoBoothProcessingLoadingEngine
+from umdieeepb.engine.frames import PhotoBoothFramesEngine
 
 from PyQt5 import QtCore
 #watercolor
@@ -19,6 +21,8 @@ class PhotoBoothEngine(QtCore.QObject):
         self.loading_eng = PhotoBoothLoadingEngine()
         self.camera_eng = PhotoBoothCameraEngine()
         self.preview_eng = PhotoBoothPreviewEngine()
+        self.proc_eng = PhotoBoothProcessingLoadingEngine()
+        self.frames_eng = PhotoBoothFramesEngine()
         
         # States:
         #   0 = Loading/Setup (maybe increment this, logo = 1, this = 1... once all of this is done)
@@ -90,6 +94,40 @@ class PhotoBoothEngine(QtCore.QObject):
                                     "internal_signals":
                                         {
                                             self.preview_eng.on_change_screen:       self.change_screen,
+                                        },
+                                },
+                            3:
+                                {
+                                    "url":    "qml/processing.qml",
+                                    "engine": self.proc_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:     self.proc_eng.on_status
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.proc_eng.on_status:     "status",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.proc_eng.on_change_screen:       self.change_screen,
+                                        },
+                                },
+                            4:
+                                {
+                                    "url":    "qml/frames.qml",
+                                    "engine": self.frames_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:     self.frames_eng.on_status
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.frames_eng.on_status:     "status",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.frames_eng.on_change_screen:       self.change_screen,
                                         },
                                 },
                         }
@@ -168,6 +206,16 @@ class PhotoBoothEngine(QtCore.QObject):
                         camera.resolution = 1944, 2592
                         camera.capture("nice_image.jpg")
                         self.change_screen(2)
+                elif self.pbstate == 2:
+                    if cmd[0] == "accept":
+                        self.change_screen(3)
+                    elif cmd[0] == "retake":
+                        self.change_screen(1)
+                elif self.pbstate == 4:
+                    if cmd[0] == "border":
+                        self.on_set_border_image.emit(int(cmd[1]))
+                    elif cmd[0] == "select":
+                        self.change_screen(5)
                 
                 conn.send(data.encode())
                 conn.close()

@@ -3,14 +3,14 @@ import time
 
 from PyQt5 import QtCore
 #watercolor
-class PhotoBoothCameraEngine(QtCore.QObject, StoppableThread):
+class PhotoBoothFramesEngine(QtCore.QObject, StoppableThread):
     def __init__(self):
         QtCore.QObject.__init__(self)
         StoppableThread.__init__(self)
         self.counter = 1
     
     def _print(self, text):
-        print("[PhotoBoothCameraEngine] %s" % text)
+        print("[PhotoBoothFramesEngine] %s" % text)
     
     def main(self, stop_queue):
         self._print("Main started.")

@@ -2,20 +2,20 @@ import QtQuick 2.4
 import QtGraphicalEffects 1.0
 
 Rectangle {
-    id: cameraWin
+    id: frameWin
     
     width: 1440
     height: 900
-    property bool filter1_border: false
-    property bool filter2_border: false
-    property bool filter3_border: false
-    property bool filter4_border: false
-    property bool filter5_border: false
-    property bool filter6_border: false
-    property bool filter7_border: false
-    property bool filter8_border: false
+    property bool frame1_border: true
+    property bool frame2_border: false
+    property bool frame3_border: false
+    property bool frame4_border: false
+    property bool frame5_border: false
+    property bool frame6_border: false
+    property bool frame7_border: false
+    property bool frame8_border: false
     
-    property alias filter6: filter6
+    property alias frame6: frame6
     
     //property QtObject textStatusBar
     
@@ -24,23 +24,23 @@ Rectangle {
         textStatusBar.status(statusText)
     }
     
-    function updateImageFilterPreview(filterNum, path) {
-        console.log("Got from python: filterNum = " + filterNum + " | path = " + path)
-        if (filterNum == 1) {
-            filter1.source = path
+    function updateImageFilterPreview(frameNum, path) {
+        console.log("Got from python: frameNum = " + frameNum + " | path = " + path)
+        if (frameNum == 1) {
+            frame1.source = path
         }
     }
     
-    function setBorderForImage(filterNum) {
-        console.log("Got from python: filterNum = " + filterNum)
-        if (filterNum == 1) filter1_border = true; else filter1_border = false
-        if (filterNum == 2) filter2_border = true; else filter2_border = false
-        if (filterNum == 3) filter3_border = true; else filter3_border = false
-        if (filterNum == 4) filter4_border = true; else filter4_border = false
-        if (filterNum == 5) filter5_border = true; else filter5_border = false
-        if (filterNum == 6) filter6_border = true; else filter6_border = false
-        if (filterNum == 7) filter7_border = true; else filter7_border = false
-        if (filterNum == 8) filter8_border = true; else filter8_border = false
+    function setBorderForImage(frameNum) {
+        console.log("Got from python: frameNum = " + frameNum)
+        if (frameNum == 1) frame1_border = true; else frame1_border = false
+        if (frameNum == 2) frame2_border = true; else frame2_border = false
+        if (frameNum == 3) frame3_border = true; else frame3_border = false
+        if (frameNum == 4) frame4_border = true; else frame4_border = false
+        if (frameNum == 5) frame5_border = true; else frame5_border = false
+        if (frameNum == 6) frame6_border = true; else frame6_border = false
+        if (frameNum == 7) frame7_border = true; else frame7_border = false
+        if (frameNum == 8) frame8_border = true; else frame8_border = false
     }
     
     function findChild(obj,objectName) {
@@ -68,48 +68,54 @@ Rectangle {
     }
     
     Image {
+        id: invisible
+        width: 0
+        height: 0
+    }
+    
+    Image {
         id: main
         x: 420
         y: 0
         width: 600
         height: 900
-        source: "test.jpg"
+        source: frame1_border ? "../tmp/frame_1.jpg" : (frame2_border ? "../tmp/frame_2.jpg" : (frame3_border ? "../tmp/frame_3.jpg" : (frame4_border ? "../tmp/frame_4.jpg" : (frame5_border ? "../tmp/frame_5.jpg" : (frame6_border ? "../tmp/frame_6.jpg" : (frame7_border ? "../tmp/frame_7.jpg" : (frame8_border ? "../nice_image.jpg" : "")))))))
     }
 
     Image {
-        id: filter1
+        id: frame1
         x: 0
         y: 0
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_1.jpg"
     }
     
     Image {
-        id: filter2
+        id: frame2
         x: 210
         y: 0
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_2.jpg"
     }
 
     Image {
-        id: filter3
+        id: frame3
         x: 0
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_3.jpg"
     }
     
     Image { 
-        id: filter4
+        id: frame4
         x: 210
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_4.jpg"
     }
 
     Image { 
@@ -123,39 +129,39 @@ Rectangle {
     }
 
     Image {
-        id: filter5
+        id: frame5
         x: 1020
         y: 0
         width: 211
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_5.jpg"
     }
 
     Image {
-        id: filter6
+        id: frame6
         x: 1230
         y: 0
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_6.jpg"
     }
 
     Image {
-        id: filter7
+        id: frame7
         x: 1020
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../tmp/frame_mini_7.jpg"
     }
 
     Image {
-        id: filter8
+        id: frame8
         x: 1230
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../nice_image.jpg"
     }
 
     Image {
@@ -168,8 +174,8 @@ Rectangle {
     }
     
     ColorOverlay {
-        anchors.fill: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : filter8)))))))
-        source: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : filter8)))))))
+        anchors.fill: frame1_border ? frame1 : (frame2_border ? frame2 : (frame3_border ? frame3 : (frame4_border ? frame4 : (frame5_border ? frame5 : (frame6_border ? frame6 : (frame7_border ? frame7 : (frame8_border ? frame8 : invisible)))))))
+        source: frame1_border ? frame1 : (frame2_border ? frame2 : (frame3_border ? frame3 : (frame4_border ? frame4 : (frame5_border ? frame5 : (frame6_border ? frame6 : (frame7_border ? frame7 : (frame8_border ? frame8 : invisible)))))))
         color: "#80800000"  // make image like it lays under red glass
     }
 }

@@ -18,8 +18,9 @@ class PhotoBoothPreviewEngine(QtCore.QObject, StoppableThread):
         self._print("Main started.")
         
         #while not self.need_to_stop(stop_queue):
-        for x in range(1,2):
+        for x in range(1,3):
             self.on_status.emit("Loading image...")
+        for x in range(1,5):
             self.on_status.emit("Done! If you like it, tap Continue. Otherwise, tap Back.")
             time.sleep(1)
         
