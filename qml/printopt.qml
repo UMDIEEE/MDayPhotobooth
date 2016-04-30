@@ -7,6 +7,8 @@ Rectangle {
     width: 1440
     height: 900
     
+    color: "black"
+    
     function status(statusText) {
         console.log("Got from python: status = "+statusText)
         textStatusBar.status(statusText)
