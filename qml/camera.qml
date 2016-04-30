@@ -5,7 +5,7 @@ Rectangle {
     id: mainWin
     
     width: 1440
-    height: 700/*900*/
+    height: 900
     property bool filter1_border: false
     property bool filter2_border: false
     property bool filter3_border: false

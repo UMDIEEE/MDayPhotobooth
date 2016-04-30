@@ -4,7 +4,7 @@ Rectangle {
     id: loadingWin
     
     width: 1440
-    height: 700/*900*/
+    height: 900
     color: "black"
     
     function status(statusText) {
