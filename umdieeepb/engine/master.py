@@ -6,6 +6,7 @@ import urllib.request
 import picamera
 import socket
 import time
+from umdieeepb import piprint
 from umdieeepb.engine.camera import PhotoBoothCameraEngine
 from umdieeepb.engine.loading import PhotoBoothLoadingEngine
 from umdieeepb.engine.preview import PhotoBoothPreviewEngine
