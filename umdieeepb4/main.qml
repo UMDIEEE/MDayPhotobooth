@@ -1,7 +1,4 @@
 import QtQuick 2.4
-//import QtQuick.Controls 1.3
-import Qt.labs.controls 1.0
-import QtQuick.Layouts 1.1
 
 Rectangle {
     id: mainWin

@@ -6,7 +6,7 @@ import urllib.request
 import time
 
 from PyQt5 import QtCore
-
+#watercolor
 class PhotoBoothEngine(QtCore.QObject):
     def __init__(self):
         QtCore.QObject.__init__(self)
@@ -39,6 +39,7 @@ class PhotoBoothEngine(QtCore.QObject):
             self._print("Loop")
             self.on_status.emit("Testing")
             self.on_update_filter_preview.emit(1, "test-highlight.jpg")
+            #self.on_change_url.emit('main.qml')
             time.sleep(1)
     
     @QtCore.pyqtSlot()
@@ -67,7 +68,8 @@ class PhotoBoothEngine(QtCore.QObject):
  
     def _get_size(self):
         return self._size
- 
+    
+    on_change_url = QtCore.pyqtSignal(str)
     on_progress = QtCore.pyqtSignal()
     on_running = QtCore.pyqtSignal()
     on_filename = QtCore.pyqtSignal()
