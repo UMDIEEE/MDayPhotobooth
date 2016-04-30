@@ -22,6 +22,5 @@ class PhotoBoothFramesEngine(QtCore.QObject, StoppableThread):
     on_change_screen = QtCore.pyqtSignal(int)
     
     on_status = QtCore.pyqtSignal(str)
-    on_update_filter_preview = QtCore.pyqtSignal(int, str)
     on_set_border_image = QtCore.pyqtSignal(int)
 
