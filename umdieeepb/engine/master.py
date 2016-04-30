@@ -235,6 +235,11 @@ class PhotoBoothEngine(QtCore.QObject):
                 
                 if self.pbstate == 1:
                     camera.start_preview()
+                    
+                if self.pbstate == 6:
+                    if not self.printed:
+                        piprint.printFile(self.selected_frame_num, self.num_of_copies)
+                        self.printed = True
                 
                 conn, addr = self.socket.accept()
                 print("Connection from: " + str(addr))
@@ -277,10 +282,6 @@ class PhotoBoothEngine(QtCore.QObject):
                             self.num_of_copies = int(cmd[1])
                     elif cmd[0] == "confirm":
                         self.change_screen(6)
-                elif self.pbstate == 6:
-                    if not self.printed:
-                        piprint.printFile(self.selected_frame_num, self.num_of_copies)
-                        self.printed = True
                 
                 conn.send(data.encode())
                 conn.close()
