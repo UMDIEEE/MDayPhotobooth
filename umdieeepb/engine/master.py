@@ -8,6 +8,7 @@ import socket
 import time
 from umdieeepb.engine.camera import PhotoBoothCameraEngine
 from umdieeepb.engine.loading import PhotoBoothLoadingEngine
+from umdieeepb.engine.preview import PhotoBoothPreviewEngine
 
 from PyQt5 import QtCore
 #watercolor
@@ -17,6 +18,7 @@ class PhotoBoothEngine(QtCore.QObject):
         
         self.loading_eng = PhotoBoothLoadingEngine()
         self.camera_eng = PhotoBoothCameraEngine()
+        self.preview_eng = PhotoBoothPreviewEngine()
         
         # States:
         #   0 = Loading/Setup (maybe increment this, logo = 1, this = 1... once all of this is done)
@@ -72,7 +74,24 @@ class PhotoBoothEngine(QtCore.QObject):
                                         {
                                             self.camera_eng.on_change_screen:        self.change_screen,
                                         },
-                                }
+                                },
+                            2:
+                                {
+                                    "url":    "qml/preview.qml",
+                                    "engine": self.preview_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:     self.preview_eng.on_status
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.preview_eng.on_status:     "status",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.preview_eng.on_change_screen:       self.change_screen,
+                                        },
+                                },
                         }
     
     def _print(self, text):
