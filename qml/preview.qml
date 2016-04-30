@@ -16,7 +16,7 @@ Rectangle {
         id: main
         x: 0
         y: 0
-
+        fillMode: Image.PreserveAspectFit
         height: 900
         source: "../nice_image.jpg"
     }
