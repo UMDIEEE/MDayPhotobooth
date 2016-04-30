@@ -245,9 +245,13 @@ class PhotoBoothEngine(QtCore.QObject):
                 conn, addr = self.socket.accept()
                 print("Connection from: " + str(addr))
                 
-                data = conn.recv(1024).decode()
-                if not data:
-                    break
+                conn.setblocking(0)
+                try:
+                    data = conn.recv(1024).decode()
+                    if not data:
+                        break
+                except:
+                    continue
                 
                 cmd = data.split(",")
                 
