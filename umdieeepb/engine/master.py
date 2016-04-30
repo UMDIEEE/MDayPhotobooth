@@ -142,8 +142,9 @@ class PhotoBoothEngine(QtCore.QObject):
                     
                     if self.pbstate == 1:
                         if cmd[0] == "filter":
-                            self.camera_effect(camera, cmd[1])
-                            self.on_set_border_image.emit(self.fxlist.index(cmd[1]))
+                            sel_filter = cmd[1].strip()
+                            self.camera_effect(camera, sel_filter)
+                            self.on_set_border_image.emit(self.fxlist.index(sel_filter))
                         elif cmd[0] == "takepic":
                             camera.stop_preview()
                             camera.resolution = 1944, 2592
