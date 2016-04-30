@@ -242,6 +242,13 @@ class PhotoBoothEngine(QtCore.QObject):
                         self.on_set_border_image.emit(int(cmd[1]))
                     elif cmd[0] == "select":
                         self.change_screen(5)
+                elif self.pbstate == 5:
+                    if cmd[0] == "copies":
+                        if int(cmd[1]) <= 6:
+                            print("on_set_copies | pbstate = %i | cmd[1] = %i" % (self.pbstate, int(cmd[1])))
+                            self.on_set_copies.emit(int(cmd[1]))
+                    elif cmd[0] == "confirm":
+                        self.change_screen(6)
                 
                 conn.send(data.encode())
                 conn.close()
