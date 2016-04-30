@@ -226,7 +226,7 @@ class PhotoBoothEngine(QtCore.QObject):
             camera.resolution = 480, 640
             camera.saturation = 50
             camera.brightness = 50
-            camera.stop_preview()
+            camera.start_preview()
             
             while not self.stopnow:
                 self._print("Loop")
