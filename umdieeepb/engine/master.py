@@ -216,6 +216,7 @@ class PhotoBoothEngine(QtCore.QObject):
                         self.change_screen(1)
                 elif self.pbstate == 4:
                     if cmd[0] == "border":
+                        print("on_set_border_image | pbstate = %i" % self.pbstate)
                         self.on_set_border_image.emit(int(cmd[1]))
                     elif cmd[0] == "select":
                         self.change_screen(5)
