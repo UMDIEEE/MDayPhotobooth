@@ -123,7 +123,8 @@ class PhotoBoothEngine(QtCore.QObject):
                                         },
                                     "method_signals":
                                         {
-                                            self.frames_eng.on_status:     "status",
+                                            self.frames_eng.on_status:           "status",
+                                            self.frames_eng.on_set_border_image: "setBorderForImage",
                                         },
                                     "internal_signals":
                                         {
