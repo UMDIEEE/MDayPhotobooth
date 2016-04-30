@@ -1,10 +1,20 @@
 import QtQuick 2.4
+import QtGraphicalEffects 1.0
 
 Rectangle {
     id: mainWin
     
     width: 1440
     height: 700/*900*/
+    property bool filter1_border: false
+    property bool filter2_border: false
+    property bool filter3_border: false
+    property bool filter4_border: false
+    property bool filter5_border: false
+    property bool filter6_border: false
+    property bool filter7_border: false
+    property bool filter8_border: false
+    
     property alias filter6: filter6
     
     //property QtObject textStatusBar
@@ -17,9 +27,20 @@ Rectangle {
     function updateImageFilterPreview(filterNum, path) {
         console.log("Got from python: filterNum = " + filterNum + " | path = " + path)
         if (filterNum == 1) {
-            console.log("NUMBA ONE REPORTING TO DUTY")
             filter1.source = path
         }
+    }
+    
+    function setBorderForImage(filterNum) {
+        console.log("Got from python: filterNum = " + filterNum)
+        if (filterNum == 1) filter1_border = true; else filter1_border = false
+        if (filterNum == 2) filter2_border = true; else filter2_border = false
+        if (filterNum == 3) filter3_border = true; else filter3_border = false
+        if (filterNum == 4) filter4_border = true; else filter4_border = false
+        if (filterNum == 5) filter5_border = true; else filter5_border = false
+        if (filterNum == 6) filter6_border = true; else filter6_border = false
+        if (filterNum == 7) filter7_border = true; else filter7_border = false
+        if (filterNum == 8) filter8_border = true; else filter8_border = false
     }
     
     Component.onCompleted: {
@@ -150,5 +171,11 @@ Rectangle {
         width: 420
         height: 270
         source: "test.jpg"
+    }
+    
+    ColorOverlay {
+        anchors.fill: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : filter8)))))))
+        source: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : filter8)))))))
+        color: "#80800000"  // make image like it lays under red glass
     }
 }

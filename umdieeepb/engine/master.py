@@ -52,17 +52,19 @@ class PhotoBoothEngine(QtCore.QObject):
                                 },
                             1:
                                 {
-                                    "url":    "qml/main.qml",
+                                    "url":    "qml/camera.qml",
                                     "engine": self.camera_eng,
                                     "master_signals":
                                         {
                                             self.on_status:                self.camera_eng.on_status,
-                                            self.on_update_filter_preview: self.camera_eng.on_update_filter_preview
+                                            self.on_update_filter_preview: self.camera_eng.on_update_filter_preview,
+                                            self.on_set_border_image:      self.camera_eng.on_set_border_image
                                         },
                                     "method_signals":
                                         {
                                             self.camera_eng.on_status:                "status",
-                                            self.camera_eng.on_update_filter_preview: "updateImageFilterPreview"
+                                            self.camera_eng.on_update_filter_preview: "updateImageFilterPreview",
+                                            self.camera_eng.on_set_border_image:      "setBorderForImage"
                                         },
                                     "internal_signals":
                                         {
@@ -144,4 +146,5 @@ class PhotoBoothEngine(QtCore.QObject):
     
     on_status = QtCore.pyqtSignal(str)
     on_update_filter_preview = QtCore.pyqtSignal(int, str)
+    on_set_border_image = QtCore.pyqtSignal(int)
     
