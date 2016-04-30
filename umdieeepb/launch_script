@@ -1,8 +1,0 @@
-#!/bin/bash
-while :; do
-	clear
-#	echo "Press ENTER to launch the ECE Photo Booth."
-#	read
-	python camera_final.py
-done
-
