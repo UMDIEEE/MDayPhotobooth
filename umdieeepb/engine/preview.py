@@ -12,7 +12,7 @@ class PhotoBoothPreviewEngine(QtCore.QObject, StoppableThread):
         StoppableThread.__init__(self)
     
     def _print(self, text):
-        print("[PhotoBoothLoadingEngine] %s" % text)
+        print("[PhotoBoothPreviewEngine] %s" % text)
     
     def main(self, stop_queue):
         self._print("Main started.")
