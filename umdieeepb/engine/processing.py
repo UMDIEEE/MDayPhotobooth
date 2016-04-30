@@ -37,14 +37,30 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
         self.mphelper = ImageProcessing(self.report_file_done)
         self.mphelper.start()
         
+        self.counter = 1
+        
         for f in os.listdir('assets/frames'):
             frame_path = os.path.join('assets/frames', f)
             if os.path.isfile(frame_path):
-                new_path = "tmp/" + file_rename(f, "_pic")
+                new_path = "tmp/" + file_rename(f, "_" + str(self.counter))
+                self.counter += 1
                 print("%s -> %s" % (frame_path, new_path))
                 self.file_status[self.mphelper.add_job(["frame_pic", "nice_image.jpg", frame_path, new_path])] = frame_path
+        
+        self.mphelper.finish_jobs()
+        
+        for f in os.listdir('assets/frames'):
+            frame_path = os.path.join('assets/frames', f)
+            if os.path.isfile(frame_path):
+                new_path = "tmp/" + file_rename(f, "_" + str(self.counter))
+                new_path_mini = "tmp/" + file_rename(f, "_mini_" + str(self.counter))
+                self.counter += 1
+                print("%s -> %s" % (new_path, new_path_mini))
+                self.file_status[self.mphelper.add_job(["shrink43Image", new_path, new_path_mini])] = new_path_mini
+        
         self.mphelper.finish_jobs_and_reset()
         self.mphelper.stop()
+        
         self.on_status.emit("Done!")
         time.sleep(1)
         self.on_change_screen.emit(1)
