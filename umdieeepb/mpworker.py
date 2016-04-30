@@ -22,7 +22,7 @@ def file_rename(oldfn, suffix):
     imgarr = img_name.split('.')
     basename = ".".join(imgarr[:-1])
     ext = imgarr[-1]
-    newfn = basename + "_new" + "." + ext
+    newfn = basename + suffix + "." + ext
 
 class ImageProcessing:
     def __init__(self, callback = None):

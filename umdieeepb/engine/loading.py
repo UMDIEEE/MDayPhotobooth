@@ -44,6 +44,7 @@ class PhotoBoothLoadingEngine(QtCore.QObject, StoppableThread):
                 print("%s -> %s" % (orig_path, new_path))
                 self.file_status[self.mphelper.add_job(["shrink43Image", orig_path, new_path])] = orig_path
         self.mphelper.finish_jobs_and_reset()
+        self.mphelper.stop()
         
         self.on_status.emit("Done!")
         time.sleep(1)

@@ -1,7 +1,7 @@
 import QtQuick 2.4
 
 Rectangle {
-    id: loadingWin
+    id: loadingProcessingWin
     
     width: 1440
     height: 900
