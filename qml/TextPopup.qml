@@ -111,7 +111,7 @@ Rectangle {
     
     Timer {
         id: fadeTimer
-        interval: 5000; running: false; repeat: false
+        interval: 10000; running: false; repeat: false
         onTriggered: {
             opacity = 0.0
             destroyTimer.running = destroyOnFade

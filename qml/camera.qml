@@ -68,6 +68,12 @@ Rectangle {
     }
     
     Image {
+        id: invisible
+        width: 0
+        height: 0
+    }
+    
+    Image {
         id: main
         x: 420
         y: 0
@@ -168,8 +174,8 @@ Rectangle {
     }
     
     ColorOverlay {
-        anchors.fill: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : filter8)))))))
-        source: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : filter8)))))))
+        anchors.fill: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : invisible)))))))
+        source: filter1_border ? filter1 : (filter2_border ? filter2 : (filter3_border ? filter3 : (filter4_border ? filter4 : (filter5_border ? filter5 : (filter6_border ? filter6 : (filter7_border ? filter7 : (filter8_border ? filter8 : invisible)))))))
         color: "#80800000"  // make image like it lays under red glass
     }
 }
