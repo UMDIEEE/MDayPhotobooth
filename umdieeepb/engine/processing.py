@@ -31,6 +31,8 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
     def main(self, stop_queue):
         self._print("Main started.")
         
+        time.sleep(3)
+        
         self.on_status.emit("Building the wheatstone bridge...")
         
         self.file_status = {}
@@ -48,6 +50,10 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
                 self.file_status[self.mphelper.add_job(["frame_pic", "nice_image.jpg", frame_path, new_path])] = frame_path
         
         self.mphelper.finish_jobs()
+        
+        self.on_status.emit("Performing the Fourier transform at IEEE@UMD...")
+        
+        self.counter = 1
         
         for f in os.listdir('assets/frames'):
             frame_path = os.path.join('assets/frames', f)
