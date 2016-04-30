@@ -38,7 +38,7 @@ Rectangle {
         anchors.top: caption.bottom;
         anchors.margins: 20
         
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent
         
         Text {
             id: number
@@ -59,7 +59,7 @@ Rectangle {
         
         anchors.top: rect.bottom
         anchors.margins: 20
-        anchors.centerIn: parent
+        anchors.horizontalCenter: parent
     }
     
 }
