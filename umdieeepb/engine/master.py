@@ -133,26 +133,25 @@ class PhotoBoothEngine(QtCore.QObject):
                 conn, addr = self.socket.accept()
                 print("Connection from: " + str(addr))
                 
-                while True:
-                    data = conn.recv(1024).decode()
-                    if not data:
-                        break
-                    
-                    cmd = data.split(",")
-                    
-                    if self.pbstate == 1:
-                        if cmd[0] == "filter":
-                            sel_filter = cmd[1].strip()
-                            self.camera_effect(camera, sel_filter)
-                            self.on_set_border_image.emit(self.fxlist.index(sel_filter))
-                        elif cmd[0] == "takepic":
-                            camera.stop_preview()
-                            camera.resolution = 1944, 2592
-                            camera.capture("nice_image.jpg")
-                            self.change_screen(2)
-                    
-                    conn.send(data.encode())
-                    conn.close()
+                data = conn.recv(1024).decode()
+                if not data:
+                    break
+                
+                cmd = data.split(",")
+                
+                if self.pbstate == 1:
+                    if cmd[0] == "filter":
+                        sel_filter = cmd[1].strip()
+                        self.camera_effect(camera, sel_filter)
+                        self.on_set_border_image.emit(self.fxlist.index(sel_filter))
+                    elif cmd[0] == "takepic":
+                        camera.stop_preview()
+                        camera.resolution = 1944, 2592
+                        camera.capture("nice_image.jpg")
+                        self.change_screen(2)
+                
+                conn.send(data.encode())
+                conn.close()
                 
                 #if self.pbstate == 0:
                     #self.on_status.emit("Testing")
