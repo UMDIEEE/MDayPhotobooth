@@ -1,6 +1,7 @@
 import cups
 
 def printFile(selected_frame_num, num_times):
+    print(" ** Printing!")
     conn = cups.Connection()
     printers = conn.getPrinters()
     printer_name = printers.keys()[0]

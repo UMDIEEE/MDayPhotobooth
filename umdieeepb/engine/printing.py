@@ -29,7 +29,7 @@ class PhotoBoothPrintingEngine(QtCore.QObject, StoppableThread):
         
         self.on_status.emit("Thanks for visiting IEEE@UMD, and for coming this Maryland Day!")
         
-        time.sleep(5)
+        time.sleep(10)
         self.on_change_screen.emit(1)
     
     on_status = QtCore.pyqtSignal(str)
