@@ -145,12 +145,12 @@ class PhotoBoothEngine(QtCore.QObject):
                                         },
                                     "method_signals":
                                         {
-                                            self.frames_eng.on_status:           "status",
-                                            self.frames_eng.on_set_copies:       "setCopies",
+                                            self.printopt_eng.on_status:           "status",
+                                            self.printopt_eng.on_set_copies:       "setCopies",
                                         },
                                     "internal_signals":
                                         {
-                                            self.frames_eng.on_change_screen:       self.change_screen,
+                                            self.printopt_eng.on_change_screen:    self.change_screen,
                                         },
                                 },
                         }
