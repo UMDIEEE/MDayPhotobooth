@@ -18,7 +18,7 @@ Rectangle {
         y: 0
 
         height: 900
-        source: "nice_image.jpg"
+        source: "../nice_image.jpg"
     }
     
 }
