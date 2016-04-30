@@ -208,8 +208,10 @@ class PhotoBoothEngine(QtCore.QObject):
                         self.change_screen(2)
                 elif self.pbstate == 2:
                     if cmd[0] == "accept":
+                        print("pbstate = %i" % self.pbstate)
                         self.change_screen(3)
                     elif cmd[0] == "retake":
+                        print("pbstate = %i" % self.pbstate)
                         self.change_screen(1)
                 elif self.pbstate == 4:
                     if cmd[0] == "border":
