@@ -12,6 +12,7 @@ from umdieeepb.engine.preview import PhotoBoothPreviewEngine
 from umdieeepb.engine.processing import PhotoBoothProcessingLoadingEngine
 from umdieeepb.engine.frames import PhotoBoothFramesEngine
 from umdieeepb.engine.printopt import PhotoBoothPrintOptEngine
+from umdieeepb.engine.printing import PhotoBoothPrintingEngine
 
 from PyQt5 import QtCore
 #watercolor
@@ -25,6 +26,7 @@ class PhotoBoothEngine(QtCore.QObject):
         self.proc_eng = PhotoBoothProcessingLoadingEngine()
         self.frames_eng = PhotoBoothFramesEngine()
         self.printopt_eng = PhotoBoothPrintOptEngine()
+        self.printing_eng = PhotoBoothPrintingEngine()
         
         # States:
         #   0 = Loading/Setup (maybe increment this, logo = 1, this = 1... once all of this is done)
@@ -153,6 +155,23 @@ class PhotoBoothEngine(QtCore.QObject):
                                             self.printopt_eng.on_change_screen:    self.change_screen,
                                         },
                                 },
+                            6:
+                                {
+                                    "url":    "qml/printing.qml",
+                                    "engine": self.printing_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:                self.printing_eng.on_status,
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.printing_eng.on_status:           "status",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.printing_eng.on_change_screen:    self.change_screen,
+                                        },
+                                },
                         }
     
     def _print(self, text):
@@ -244,7 +263,7 @@ class PhotoBoothEngine(QtCore.QObject):
                         self.change_screen(5)
                 elif self.pbstate == 5:
                     if cmd[0] == "copies":
-                        if int(cmd[1]) <= 6:
+                        if int(cmd[1]) <= 6 and int(cmd[1]) >= 1:
                             print("on_set_copies | pbstate = %i | cmd[1] = %i" % (self.pbstate, int(cmd[1])))
                             self.on_set_copies.emit(int(cmd[1]))
                     elif cmd[0] == "confirm":
