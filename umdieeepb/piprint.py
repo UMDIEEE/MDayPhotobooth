@@ -1,3 +1,4 @@
+import os
 import cups
 import traceback
 
