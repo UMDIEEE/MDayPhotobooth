@@ -217,6 +217,10 @@ class PhotoBoothEngine(QtCore.QObject):
         
         self.socket.listen(1)
         
+        self.selected_frame_num = -1
+        self.num_of_copies = -1
+        self.printed = False
+        
         with picamera.PiCamera() as camera:
             camera.resolution = 480, 640
             camera.saturation = 50
@@ -225,6 +229,9 @@ class PhotoBoothEngine(QtCore.QObject):
             
             while not self.stopnow:
                 self._print("Loop")
+                
+                if self.pbstate <= 5:
+                    self.printed = False
                 
                 if self.pbstate == 1:
                     camera.start_preview()
@@ -259,6 +266,7 @@ class PhotoBoothEngine(QtCore.QObject):
                     if cmd[0] == "border":
                         print("on_set_border_image | pbstate = %i | cmd[1] = %i" % (self.pbstate, int(cmd[1])))
                         self.on_set_border_image.emit(int(cmd[1]))
+                        self.selected_frame_num = int(cmd[1])
                     elif cmd[0] == "select":
                         self.change_screen(5)
                 elif self.pbstate == 5:
@@ -266,8 +274,13 @@ class PhotoBoothEngine(QtCore.QObject):
                         if int(cmd[1]) <= 6 and int(cmd[1]) >= 1:
                             print("on_set_copies | pbstate = %i | cmd[1] = %i" % (self.pbstate, int(cmd[1])))
                             self.on_set_copies.emit(int(cmd[1]))
+                            self.num_of_copies = int(cmd[1])
                     elif cmd[0] == "confirm":
                         self.change_screen(6)
+                elif self.pbstate == 6:
+                    if not self.printed:
+                        piprint.printFile(self.selected_frame_num, self.num_of_copies)
+                        self.printed = True
                 
                 conn.send(data.encode())
                 conn.close()
