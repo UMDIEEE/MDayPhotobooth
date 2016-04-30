@@ -38,6 +38,8 @@ Rectangle {
         anchors.top: caption.bottom;
         anchors.margins: 20
         
+        anchors.centerIn: parent
+        
         Text {
             id: number
             text: "1"
@@ -57,6 +59,7 @@ Rectangle {
         
         anchors.top: rect.bottom
         anchors.margins: 20
+        anchors.centerIn: parent
     }
     
 }
