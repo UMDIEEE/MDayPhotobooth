@@ -31,6 +31,11 @@ Rectangle {
     Rectangle {
         id: bgrect
         
+        x: 0
+        y: 0
+        width: 1440
+        height: 900
+        
         color: "black"
         opacity: 0.6
     
