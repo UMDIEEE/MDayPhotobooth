@@ -25,6 +25,7 @@ if __name__ == '__main__':
     # Initialize PhotoBoothEngine.
     pbengine = PhotoBoothEngine()
     pbengine.on_status.connect(appLabel.rootObject().status)
+    pbengine.on_update_filter_preview.connect(appLabel.rootObject().updateImageFilterPreview)
     
     appLabel.rootContext().setContextProperty('pbengine', pbengine)
 

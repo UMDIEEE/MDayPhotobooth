@@ -17,6 +17,14 @@ Rectangle {
         textStatusBar.status(statusText)
     }
     
+    function updateImageFilterPreview(filterNum, path) {
+        console.log("Got from python: filterNum = " + filterNum + " | path = " + path)
+        if (filterNum == 1) {
+            console.log("NUMBA ONE REPORTING TO DUTY")
+            filter1.source = path
+        }
+    }
+    
     Component.onCompleted: {
         //mainWin.status.connect(textStatusBar.status)
         
