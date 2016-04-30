@@ -119,7 +119,7 @@ class PhotoBoothEngine(QtCore.QObject):
         self.socket.listen(1)
         
         with picamera.PiCamera() as camera:
-            camera.resolution = 640, 480
+            camera.resolution = 480, 640
             camera.saturation = 50
             camera.brightness = 50
             camera.stop_preview()
