@@ -125,7 +125,7 @@ Rectangle {
         width: 420
         height: 270
         //fillMode: Image.PreserveAspectFit
-        source: "test.jpg"
+        source: "../assets/left_logo.png"
     }
 
     Image {
@@ -170,7 +170,7 @@ Rectangle {
         y: 630
         width: 420
         height: 270
-        source: "test.jpg"
+        source: "../assets/right_logo.jpg"
     }
     
     ColorOverlay {

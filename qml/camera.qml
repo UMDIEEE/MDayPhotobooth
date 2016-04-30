@@ -73,6 +73,7 @@ Rectangle {
         height: 0
     }
     
+    /*
     Image {
         id: main
         x: 420
@@ -81,6 +82,16 @@ Rectangle {
         height: 900
         source: "test.jpg"
     }
+    */
+    
+    Rectangle {
+        id: main
+        x: 420
+        y: 0
+        width: 600
+        height: 900
+        color: "black"
+    }
 
     Image {
         id: filter1
@@ -88,7 +99,7 @@ Rectangle {
         y: 0
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter1.jpg"
     }
     
     Image {
@@ -97,7 +108,7 @@ Rectangle {
         y: 0
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter2.jpg"
     }
 
     Image {
@@ -106,7 +117,7 @@ Rectangle {
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter3.jpg"
     }
     
     Image { 
@@ -115,7 +126,7 @@ Rectangle {
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter4.jpg"
     }
 
     Image { 
@@ -125,7 +136,7 @@ Rectangle {
         width: 420
         height: 270
         //fillMode: Image.PreserveAspectFit
-        source: "test.jpg"
+        source: "../assets/left_logo.png"
     }
 
     Image {
@@ -134,7 +145,7 @@ Rectangle {
         y: 0
         width: 211
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter5.jpg"
     }
 
     Image {
@@ -143,7 +154,7 @@ Rectangle {
         y: 0
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter6.jpg"
     }
 
     Image {
@@ -152,7 +163,7 @@ Rectangle {
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter7.jpg"
     }
 
     Image {
@@ -161,7 +172,7 @@ Rectangle {
         y: 315
         width: 210
         height: 315
-        source: "test.jpg"
+        source: "../assets/filters/Filter8.jpg"
     }
 
     Image {
@@ -170,7 +181,7 @@ Rectangle {
         y: 630
         width: 420
         height: 270
-        source: "test.jpg"
+        source: "../assets/right_logo.jpg"
     }
     
     ColorOverlay {
