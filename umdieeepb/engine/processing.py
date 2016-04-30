@@ -49,6 +49,8 @@ class PhotoBoothProcessingLoadingEngine(QtCore.QObject, StoppableThread):
                 print("%s -> %s" % (frame_path, new_path))
                 self.file_status[self.mphelper.add_job(["frame_pic", "nice_image.jpg", frame_path, new_path])] = frame_path
         
+        self.on_status.emit("Increasing current to all of the right places...")
+        
         self.mphelper.finish_jobs()
         
         self.on_status.emit("Performing the Fourier transform at IEEE@UMD...")

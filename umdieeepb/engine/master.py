@@ -11,6 +11,7 @@ from umdieeepb.engine.loading import PhotoBoothLoadingEngine
 from umdieeepb.engine.preview import PhotoBoothPreviewEngine
 from umdieeepb.engine.processing import PhotoBoothProcessingLoadingEngine
 from umdieeepb.engine.frames import PhotoBoothFramesEngine
+from umdieeepb.engine.printopt import PhotoBoothPrintOptEngine
 
 from PyQt5 import QtCore
 #watercolor
@@ -23,6 +24,7 @@ class PhotoBoothEngine(QtCore.QObject):
         self.preview_eng = PhotoBoothPreviewEngine()
         self.proc_eng = PhotoBoothProcessingLoadingEngine()
         self.frames_eng = PhotoBoothFramesEngine()
+        self.printopt_eng = PhotoBoothPrintOptEngine()
         
         # States:
         #   0 = Loading/Setup (maybe increment this, logo = 1, this = 1... once all of this is done)
@@ -126,6 +128,25 @@ class PhotoBoothEngine(QtCore.QObject):
                                         {
                                             self.frames_eng.on_status:           "status",
                                             self.frames_eng.on_set_border_image: "setBorderForImage",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.frames_eng.on_change_screen:       self.change_screen,
+                                        },
+                                },
+                            5:
+                                {
+                                    "url":    "qml/printopt.qml",
+                                    "engine": self.printopt_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:                self.printopt_eng.on_status,
+                                            self.on_set_copies:            self.printopt_eng.on_set_copies
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.frames_eng.on_status:           "status",
+                                            self.frames_eng.on_set_copies:       "setCopies",
                                         },
                                     "internal_signals":
                                         {
@@ -290,4 +311,5 @@ class PhotoBoothEngine(QtCore.QObject):
     on_status = QtCore.pyqtSignal(str)
     on_update_filter_preview = QtCore.pyqtSignal(int, str)
     on_set_border_image = QtCore.pyqtSignal(int)
+    on_set_copies = QtCore.pyqtSignal(int)
     
