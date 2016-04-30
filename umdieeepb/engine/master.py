@@ -218,8 +218,8 @@ class PhotoBoothEngine(QtCore.QObject):
         
         self.socket.listen(1)
         
-        self.selected_frame_num = -1
-        self.num_of_copies = -1
+        self.selected_frame_num = 8
+        self.num_of_copies = 1
         self.printed = False
         
         with picamera.PiCamera() as camera:
