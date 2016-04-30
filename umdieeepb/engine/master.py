@@ -258,7 +258,7 @@ class PhotoBoothEngine(QtCore.QObject):
                         self.on_set_border_image.emit(self.fxlist.index(sel_filter))
                     elif cmd[0] == "takepic":
                         camera.stop_preview()
-                        camera.resolution = 1944, 2592
+                        camera.resolution = 486, 648
                         camera.capture("nice_image.jpg")
                         self.change_screen(2)
                 elif self.pbstate == 2:
