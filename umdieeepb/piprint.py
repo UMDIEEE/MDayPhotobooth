@@ -14,7 +14,7 @@ def printFile(selected_frame_num, num_times):
         else:
             selected_frame_pic = "nice_image.jpg"
         
-        for i in xrange(0, num_times):
+        for i in range(0, num_times):
             conn.printFile(printer_name, os.path.abspath(selected_frame_pic), "Photo_Booth_Print", { "media": "Custom.4x6in" })
     except:
         print(" ** Printing FAILED!")
