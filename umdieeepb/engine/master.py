@@ -152,6 +152,7 @@ class PhotoBoothEngine(QtCore.QObject):
                             self.change_screen(2)
                     
                     conn.send(data.encode())
+                    conn.close()
                 
                 #if self.pbstate == 0:
                     #self.on_status.emit("Testing")
