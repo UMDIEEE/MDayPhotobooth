@@ -19,47 +19,74 @@ Rectangle {
         number.text = num
     }
     
-    Text {
-        id: caption
-        text: "Copies to Print:"
-        font.family: "Helvetica"
-        font.pointSize: 24
-        color: "white"
-        anchors.centerIn: parent
+    Image {
+        id: main
+        x: 0
+        y: 0
+        width: 1440
+        height: 900
+        source: "../assets/background.png"
     }
     
     Rectangle {
-        id: rect
+        id: bgrect
         
-        color: "white"
-        width: 200
-        height: 100
-        
-        anchors.top: caption.bottom;
-        anchors.margins: 20
-        
-        anchors.horizontalCenter: parent.horizontalCenter
-        
+        color: "black"
+        opacity: 0.6
+    
         Text {
-            id: number
-            text: "1"
+            id: caption
+            text: "Copies to Print:"
             font.family: "Helvetica"
             font.pointSize: 24
-            color: "black"
+            color: "white"
             anchors.centerIn: parent
         }
-    }
-    
-    Text {
-        id: caption2
-        text: "Copies to Print:"
-        font.family: "Helvetica"
-        font.pointSize: 24
-        color: "white"
         
-        anchors.top: rect.bottom
-        anchors.margins: 20
-        anchors.horizontalCenter: parent.horizontalCenter
+        Rectangle {
+            id: rect
+            
+            color: "white"
+            width: 200
+            height: 100
+            
+            anchors.top: caption.bottom;
+            anchors.margins: 20
+            
+            anchors.horizontalCenter: parent.horizontalCenter
+            
+            Text {
+                id: number
+                text: "1"
+                font.family: "Helvetica"
+                font.pointSize: 24
+                color: "black"
+                anchors.centerIn: parent
+            }
+        }
+        
+        Text {
+            id: caption2
+            text: "(Limit one copy per person!)"
+            font.family: "Helvetica"
+            font.pointSize: 24
+            color: "white"
+            
+            anchors.top: rect.bottom
+            anchors.margins: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        
+        Text {
+            id: caption3
+            text: "Once you're ready, tap Finish!"
+            font.family: "Helvetica"
+            font.pointSize: 24
+            color: "white"
+            
+            anchors.top: caption2.bottom
+            anchors.margins: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
-    
 }
