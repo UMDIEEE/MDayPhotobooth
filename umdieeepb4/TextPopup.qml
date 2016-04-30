@@ -23,9 +23,9 @@ Rectangle {
         
         textPopupRect.moveUpLine.connect(doMoveUpLine)
         
-        console.log("Startup")
+        //console.log("Startup")
         propTimer.running = true
-        console.log("Startup end")
+        //console.log("Startup end")
     }
     
     function doMoveUpLine() {
@@ -59,17 +59,17 @@ Rectangle {
         id: propTimer
         interval: 100; running: false; repeat: true
         onTriggered: {
-            console.log("propTimer trigger")
+            //console.log("propTimer trigger")
             if (useTarget) {
                 y = (startY == 0) ? (-height) : startY
                 
-                console.log("targetY set to: " + targetY)
-                console.log("y set to: " + y)
+                //console.log("targetY set to: " + targetY)
+                //console.log("y set to: " + y)
                 
                 yBehavior.enabled = enableTransitions
                 opacityBehavior.enabled = enableTransitions
                 
-                console.log("Enabled: " + yBehavior.enabled + " and " + opacityBehavior.enabled)
+                //console.log("Enabled: " + yBehavior.enabled + " and " + opacityBehavior.enabled)
                 
                 actuallyStart = true
                 
@@ -84,16 +84,17 @@ Rectangle {
         id: propTransTimer
         interval: 10; running: false; repeat: false
         onTriggered: {
-            console.log("propTransTimer: executing")
-            console.log("propTransTimer old y = "+y)
-            console.log("propTransTimer | targetY = "+targetY)
+            //console.log("propTransTimer: executing")
+            //console.log("propTransTimer old y = "+y)
+            //console.log("propTransTimer | targetY = "+targetY)
             y = (targetY == 0) ? (-height) : targetY
-            console.log("propTransTimer assigns y = "+y)
-            console.log("propTransTimer assigns opacity = "+opacity)
-            console.log("propTransTimer assigns stateVisible = "+stateVisible)
+            //console.log("propTransTimer assigns y = "+y)
+            //console.log("propTransTimer assigns opacity = "+opacity)
+            //console.log("propTransTimer assigns stateVisible = "+stateVisible)
         }
     }
     
+    /*
     Timer {
         id: propReadTimer
         interval: 1000; running: true; repeat: true
@@ -106,6 +107,7 @@ Rectangle {
             console.log("propReadTimer assigns parent = "+parent.parent)
         }
     }
+    */
     
     Timer {
         id: fadeTimer
