@@ -7,10 +7,6 @@ Rectangle {
     width: 1440
     height: 900
     
-    property alias filter6: filter6
-    
-    //property QtObject textStatusBar
-    
     function status(statusText) {
         console.log("Got from python: status = "+statusText)
         textStatusBar.status(statusText)
