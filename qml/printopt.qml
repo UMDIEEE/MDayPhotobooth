@@ -21,20 +21,42 @@ Rectangle {
     
     Text {
         id: caption
-        text: "Copies to Print:\n(Limited to 1 per person!)"
+        text: "Copies to Print:"
         font.family: "Helvetica"
         font.pointSize: 24
         color: "white"
         anchors.centerIn: parent
     }
     
+    Rectangle {
+        id: rect
+        
+        color: "white"
+        width: 200
+        height: 100
+        
+        anchors.top: caption.bottom;
+        anchors.margins: 20
+        
+        Text {
+            id: number
+            text: "1"
+            font.family: "Helvetica"
+            font.pointSize: 24
+            color: "black"
+            anchors.centerIn: parent
+        }
+    }
+    
     Text {
-        id: number
-        text: "1"
+        id: caption2
+        text: "Copies to Print:"
         font.family: "Helvetica"
         font.pointSize: 24
         color: "white"
-        anchors.centerIn: parent
+        
+        anchors.top: rect.bottom
+        anchors.margins: 20
     }
     
 }
