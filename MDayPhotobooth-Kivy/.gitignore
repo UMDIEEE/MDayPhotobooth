@@ -1,0 +1,3 @@
+# Kivy App build ignores
+bin/
+.buildozer/

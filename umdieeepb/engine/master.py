@@ -6,14 +6,16 @@ import urllib.request
 import picamera
 import socket
 import time
-from umdieeepb import piprint
+from umdieeepb import piprint, piemail
 from umdieeepb.engine.camera import PhotoBoothCameraEngine
 from umdieeepb.engine.loading import PhotoBoothLoadingEngine
 from umdieeepb.engine.preview import PhotoBoothPreviewEngine
 from umdieeepb.engine.processing import PhotoBoothProcessingLoadingEngine
 from umdieeepb.engine.frames import PhotoBoothFramesEngine
 from umdieeepb.engine.printopt import PhotoBoothPrintOptEngine
+from umdieeepb.engine.emailopt import PhotoBoothEmailOptEngine
 from umdieeepb.engine.printing import PhotoBoothPrintingEngine
+from umdieeepb.engine.done import PhotoBoothDoneEngine
 
 from PyQt5 import QtCore
 #watercolor
@@ -27,7 +29,9 @@ class PhotoBoothEngine(QtCore.QObject):
         self.proc_eng = PhotoBoothProcessingLoadingEngine()
         self.frames_eng = PhotoBoothFramesEngine()
         self.printopt_eng = PhotoBoothPrintOptEngine()
+        self.emailopt_eng = PhotoBoothEmailOptEngine()
         self.printing_eng = PhotoBoothPrintingEngine()
+        self.done_eng = PhotoBoothDoneEngine()
         
         # States:
         #   0 = Loading/Setup (maybe increment this, logo = 1, this = 1... once all of this is done)
@@ -36,7 +40,9 @@ class PhotoBoothEngine(QtCore.QObject):
         #   3 = Processing Photo Previews (for borders)
         #   4 = Preview and Select Picture Borders
         #   5 = Printing Options (how many?)
-        #   6 = Printing Screen (delay X seconds)
+        #   6 = Email Options
+        #   7 = Printing Screen (delay X seconds)
+        #   8 = Done Screen (delay X seconds)
         self.pbstate = 0
         
         self.stopnow = False
@@ -158,6 +164,25 @@ class PhotoBoothEngine(QtCore.QObject):
                                 },
                             6:
                                 {
+                                    "url":    "qml/emailopt.qml",
+                                    "engine": self.emailopt_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:                self.emailopt_eng.on_status,
+                                            self.on_set_email:             self.emailopt_eng.on_set_email
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.emailopt_eng.on_status:           "status",
+                                            self.emailopt_eng.on_set_email:        "setEmail",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.emailopt_eng.on_change_screen:    self.change_screen,
+                                        },
+                                },
+                            7:
+                                {
                                     "url":    "qml/printing.qml",
                                     "engine": self.printing_eng,
                                     "master_signals":
@@ -171,6 +196,23 @@ class PhotoBoothEngine(QtCore.QObject):
                                     "internal_signals":
                                         {
                                             self.printing_eng.on_change_screen:    self.change_screen,
+                                        },
+                                },
+                            8:
+                                {
+                                    "url":    "qml/done.qml",
+                                    "engine": self.done_eng,
+                                    "master_signals":
+                                        {
+                                            self.on_status:                self.done_eng.on_status,
+                                        },
+                                    "method_signals":
+                                        {
+                                            self.done_eng.on_status:           "status",
+                                        },
+                                    "internal_signals":
+                                        {
+                                            self.done_eng.on_change_screen:    self.change_screen,
                                         },
                                 },
                         }
@@ -220,38 +262,55 @@ class PhotoBoothEngine(QtCore.QObject):
         
         self.selected_frame_num = 8
         self.num_of_copies = 1
+        self.email_dest = "ieee.umd@gmail.com"
         self.printed = False
+        
+        self.camera_enabled = False
         
         with picamera.PiCamera() as camera:
             camera.resolution = 480, 640
             camera.saturation = 50
             camera.brightness = 50
-            camera.start_preview()
+            #camera.start_preview()
             
             while not self.stopnow:
                 self._print("Loop")
                 
                 if self.pbstate <= 5:
                     self.printed = False
+                    self.emailed = False
                 
-                if self.pbstate == 1:
+                if self.pbstate == 1 and not self.camera_enabled:
+                    print("Attempting to start camera preview...")
                     camera.start_preview()
+                    self.camera_enabled = True
                     
-                if self.pbstate == 6:
+                if self.pbstate == 7:
                     if not self.printed:
                         piprint.printFile(self.selected_frame_num, self.num_of_copies)
                         self.printed = True
-                
-                conn, addr = self.socket.accept()
-                print("Connection from: " + str(addr))
-                
-                conn.setblocking(0)
+
+                if self.pbstate == 8:
+                    if not self.emailed:
+                        piemail.emailFile(self.selected_frame_num, self.email_dest)
+                        self.emailed = True
+                self.socket.settimeout(2)
                 try:
-                    data = conn.recv(1024).decode()
-                    if not data:
-                        break
+                    conn, addr = self.socket.accept()
                 except:
                     continue
+                print("Connection from: " + str(addr))
+                
+                #conn.setblocking(0)
+                #try:
+                try:
+                    data = conn.recv(1024).decode()
+                except:
+                    continue
+                if not data:
+                    break
+                #except:
+                #    continue
                 
                 cmd = data.split(",")
                 
@@ -264,6 +323,7 @@ class PhotoBoothEngine(QtCore.QObject):
                         camera.stop_preview()
                         camera.resolution = 486, 648
                         camera.capture("nice_image.jpg")
+                        self.camera_enabled = False
                         self.change_screen(2)
                 elif self.pbstate == 2:
                     if cmd[0] == "accept":
@@ -278,7 +338,7 @@ class PhotoBoothEngine(QtCore.QObject):
                         self.on_set_border_image.emit(int(cmd[1]))
                         self.selected_frame_num = int(cmd[1])
                     elif cmd[0] == "select":
-                        self.change_screen(5)
+                        self.change_screen(6)
                 elif self.pbstate == 5:
                     if cmd[0] == "copies":
                         if int(cmd[1]) <= 6 and int(cmd[1]) >= 1:
@@ -287,6 +347,12 @@ class PhotoBoothEngine(QtCore.QObject):
                             self.num_of_copies = int(cmd[1])
                     elif cmd[0] == "confirm":
                         self.change_screen(6)
+                elif self.pbstate == 6:
+                    if cmd[0] == "email":
+                        print("on_set_email | pbstate = %i | cmd[1] = %s" % (self.pbstate, cmd[1]))
+                        self.on_set_email.emit(cmd[1])
+                        self.email_dest = cmd[1]
+                        self.change_screen(8)
                 
                 conn.send(data.encode())
                 conn.close()
@@ -357,4 +423,5 @@ class PhotoBoothEngine(QtCore.QObject):
     on_update_filter_preview = QtCore.pyqtSignal(int, str)
     on_set_border_image = QtCore.pyqtSignal(int)
     on_set_copies = QtCore.pyqtSignal(int)
+    on_set_email = QtCore.pyqtSignal(str)
     
